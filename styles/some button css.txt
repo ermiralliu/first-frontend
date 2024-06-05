@@ -1,0 +1,13 @@
+
+/* button{
+    background-color: blue;
+    color:white;
+    font-size: 150%;
+    width:32%;
+    padding: 4% 0;
+    border: 0;
+}
+button:hover{
+    background-color: lightblue;
+    color: red;
+} */

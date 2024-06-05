@@ -1,0 +1,109 @@
+img.head-image{
+    aspect-ratio: 4/3;
+    min-width: 105%;
+    max-width: 120%; /* nuk e kuptoj pse, por e rendesishme per mos tu bere teper e madhe*/
+    min-height: 105%;
+    object-fit: cover;
+    height: 30vh;
+    border-radius: 16px;
+    /* transition: height 1s ease; */
+}
+ 
+div.choice-div:hover{
+    height: 40vh;                   /*duhej qe height fillestar te ishte edhe te div, dhe te imazhi per te qene konsistente*/
+}
+
+table{
+    container-type: inline-size;
+    border-spacing: 2%;
+    position:absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    opacity: 0%;
+    font-size: 1.1cqw;
+}
+td{
+    padding:0 1%;
+    margin: 0 1%;
+}
+div.body-div:hover > table{
+    opacity:100%;
+}
+div.body-div:hover  > img{
+    opacity: 10%;
+}
+img.body-img{
+    position:relative;
+    top: 0%;
+    margin:0;
+    padding:0;
+    height: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+#sect{
+    display: flex;
+    height: 60vh;
+    padding: 0 35%;
+    margin: 0 auto;
+    margin-top: 5vh;
+    overflow: auto;
+}
+div.body-div{
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0 1%;
+}
+
+div.choice-div{
+    transition: height 0.6s ease;
+    height: 30vh;
+    text-align: center;
+    padding: 0 2%;
+    border: 0;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+#head-div{
+    grid-template-columns: repeat(3, 1fr);
+    position: relative;
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+}
+
+body{
+    background-color: black;
+    color:white;
+}
+h1{
+    height:0;                   /*to not reserve space for the header*/
+    position:relative;
+    top: 50%;
+    margin:0 auto;
+    color:white;
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
