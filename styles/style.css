@@ -128,8 +128,8 @@ figcaption{
     }
     figcaption{
         height: 0;
-        position:relative;
-        bottom: 12%;
+        position: absolute;
+        top: 0;
         opacity: 100%;
     }
     img.body-img{
