@@ -105,4 +105,4 @@ document.getElementById("contact").addEventListener("click", ()=> modalWindow(`<
 
 window.addEventListener("wheel", event=>{
     sect.scrollLeft += event.deltaY;
-})
+});
