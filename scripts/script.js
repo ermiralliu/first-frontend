@@ -104,5 +104,13 @@ document.getElementById("contact").addEventListener("click", ()=> modalWindow(`<
 `));
 
 window.addEventListener("wheel", event=>{
+    sect.style.scrollBehavior = "auto";
     sect.scrollLeft += event.deltaY;
+    sect.style.scrollBehavior = "smooth";
+});
+window.addEventListener("keydown", event=>{
+    if(event.key === "ArrowLeft")
+        sect.scrollLeft -= document.querySelector("figure").clientWidth;      
+    else if( event.key === "ArrowRight")
+        sect.scrollLeft += document.querySelector("figure").clientWidth;
 });
