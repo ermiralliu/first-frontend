@@ -5,13 +5,13 @@ var currentArray = [];
 const sect = document.getElementById("sect");
 var bodyDivArray = [];      //an array of elements which can create a modal window
 
-get("dogs", "https://freetestapi.com/api/v1/dogs");
+get("dogs");
 
-async function get(str, link){                   //eeee se do i rregulloj, dhe do e bej me argumenta qe te jete me general
+async function get(str){                   //eeee se do i rregulloj, dhe do e bej me argumenta qe te jete me general
     if(lastSearched === str )                    //stop searching if the last search was the same
         return;
     try{
-        var array = await fetch(link);
+        var array = await fetch(`https://freetestapi.com/api/v1/${str}`);
         array = await array.json();
         console.log(array);
     }
@@ -38,7 +38,6 @@ async function get(str, link){                   //eeee se do i rregulloj, dhe d
     //from here on it doesn't work, maybe cause the document hasn't processed it fully yet
 }
 
-
 function makeModal(id){
     object = currentArray.find( element => element.id === id);
     //currentArray[id];
@@ -63,31 +62,25 @@ function unMakeModal(){
     moDiv.className = null;
 }
 
-
-const dogButton = document.getElementById("dog");
-dogButton.addEventListener("click", ()=>get("dogs", "https://freetestapi.com/api/v1/dogs"));
-
-const catButton = document.getElementById("cat");
-catButton.addEventListener("click", ()=>get("cats", "https://freetestapi.com/api/v1/cats"));
-
-const birdButton = document.getElementById("bird");
-birdButton.addEventListener("click", ()=>get("birds", "https://freetestapi.com/api/v1/birds"));
+for(const animal of ["dogs", "cats", "birds"]){
+    document.getElementById(animal).addEventListener("click", ()=>get(animal));
+}
 
 const searchBar = document.getElementById("s-bar");
 searchBar.addEventListener("keypress", (event)=>{
     if(event.key !== "Enter")
         return;
-    get(searchBar.value, `https://freetestapi.com/api/v1/${currentAnimal}?search=${searchBar.value}`);
+    get(`${currentAnimal}?search=${searchBar.value}`);
 } );
 
-document.getElementById("search-button").addEventListener("click", ()=> get(searchBar.value, `https://freetestapi.com/api/v1/${currentAnimal}?search=${searchBar.value}`));
+document.getElementById("search-button").addEventListener("click", ()=> get(`${currentAnimal}?search=${searchBar.value}`));
 
 document.getElementById("filter").addEventListener("click", ()=>{
     if( isNaN(searchBar.value))
         return;
-    get(searchBar.value, `https://freetestapi.com/api/v1/${currentAnimal}?limit=${searchBar.value}`);
+    get(`${currentAnimal}?limit=${searchBar.value}`);
 });
-document.getElementById("sort").addEventListener("click", ()=> get("sortaWeird" ,`https://freetestapi.com/api/v1/${currentAnimal}?sort=name&order=dec`));
+document.getElementById("sort").addEventListener("click", ()=> get(`${currentAnimal}?sort=name&order=dec`));
 
 document.getElementById("about").addEventListener("click", ()=> modalWindow(`<div><h2>About Us</h2><p> Welcome to <b>Example</b> 
     where we share information related to Animal Gallery. 
