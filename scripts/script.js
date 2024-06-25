@@ -15,51 +15,62 @@ async function get(str){                   //eeee se do i rregulloj, dhe do e be
         array = await array.json();
         console.log(array);
     }
-    catch(err){
-        
+    catch(err){  
         console.error(err);
         return;
     }
-                    //console.log(JSON.stringify(array));
-    let view ="";
-    array.forEach(element=>{  
-        view += `<figure class="body-div" >
-                <img onclick="makeModal(${element.id})" class="body-img" alt="a ${currentAnimal}" src="${element.image}"/>
-                <figcaption>
-                Name:  ${element.name}<br>
-                Origin:  ${element.origin || element.place_of_found}     
-                </figcaption></figure>`;
+    let view = array.map(element=>{  
+        const dom = document.createElement("figure");
+        dom.className = 'body-div';
+        const imag = document.createElement("img");
+        imag.src = element.image;
+        imag.alt = `a ${currentAnimal}`;
+        imag.className = 'body-img';
+        imag.addEventListener('click', ()=>makeModal(element.id));
+        const caption = document.createElement("figcaption");
+        caption.innerHTML = ` Name:  ${element.name}<br>
+                            Origin:  ${element.origin || element.place_of_found}  `
+        dom.appendChild(imag);
+        dom.appendChild(caption);
+        return dom;
     });                                     // Origin me OR, se origjina esht bosh per zogjt psh
+    while(sect.firstChild !== null)
+        sect.removeChild(sect.firstChild);
     currentArray = array;
-    sect.innerHTML = view;
+    for(const element of view)
+        sect.appendChild(element);
     if(str === "dogs" || str === "cats" || str === "birds")
         currentAnimal = str;                                            //to keep track of the current animal
     lastSearched = str;
-    //from here on it doesn't work, maybe cause the document hasn't processed it fully yet
 }
 
 function makeModal(id){
-    object = currentArray.find( element => element.id === id);
-    //currentArray[id];
-
-    let html_string = '<table id="moTable">'
-    for([key,value] of Object.entries(object))
-        html_string += `<tr><td>${key}</td><td>${value}</td></tr>`;
-    html_string += `</table>`;
-    modalWindow(html_string);
+    const object = currentArray.find( element => element.id === id);
+    const table = document.createElement('table');
+    table.id = 'moTable';
+    for([key,value] of Object.entries(object)){
+        const row = document.createElement('tr');
+        for(const inner of [key, value]){
+            const dom = document.createElement('td');
+            dom.textContent = inner;
+            row.appendChild(dom);
+        }
+        table.appendChild(row);
+    }
+    modalWindow(table);
 }
-function modalWindow(str){
+function modalWindow(dom){
     let moDiv = document.getElementById("mod");                 //marrim div me kte id dhe i japim klasen e cila ne css i jep vetite e duhura
-    moDiv.setAttribute("onclick", "unMakeModal()")
-    //moDiv.onclick = "";
+    moDiv.addEventListener("click", unMakeModal);
     moDiv.className = "modal";
-    moDiv.innerHTML = str;
+    moDiv.appendChild(dom);
 }
 
 function unMakeModal(){
     let moDiv = document.getElementById("mod");
-    moDiv.innerHTML = "";
     moDiv.className = null;
+    while(moDiv.firstChild !== null)
+        moDiv.removeChild(moDiv.firstChild);
 }
 
 for(const animal of ["dogs", "cats", "birds"]){
@@ -82,19 +93,36 @@ document.getElementById("filter").addEventListener("click", ()=>{
 });
 document.getElementById("sort").addEventListener("click", ()=> get(`${currentAnimal}?sort=name&order=dec`));
 
-document.getElementById("about").addEventListener("click", ()=> modalWindow(`<div><h2>About Us</h2><p> Welcome to <b>Example</b> 
-    where we share information related to Animal Gallery. 
-    We're dedicated to providing you the very best information and knowledge of the above mentioned topics.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
-`));
-document.getElementById("contact").addEventListener("click", ()=> modalWindow(`<div><h2>Contacts</h2><p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-    non   proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p> Email: mirialliu@gmail.com <br>
-        Phone: +355 6x xx xx xxx
-    </p>
-    </div>
-`));
+document.getElementById("about").addEventListener("click", ()=> { contact("About Us",
+    `Welcome to <b>Example</b> 
+        where we share information related to Animal Gallery. 
+        We're dedicated to providing you the very best information and knowledge of the above mentioned topics.`,
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`)
+});
+document.getElementById("contact").addEventListener("click", ()=>{ contact("Contacts",
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+    `Email: mirialliu@gmail.com <br>
+        Phone: +355 6x xx xx xxx`);
+});
+
+function contact(head, p1Str, p2Str){
+    const dom = document.createElement('div');
+    const header = document.createElement('h2');
+    header.textContent = head;
+    const para = document.createElement('p');
+    para.innerHTML = p1Str;
+    const para2 = document.createElement('p');
+    para2.innerHTML = p2Str;
+    for(const element of [header, para, para2])
+        dom.appendChild(element);
+    modalWindow(dom);
+};
 
 window.addEventListener("wheel", event=>{
     sect.style.scrollBehavior = "auto";
