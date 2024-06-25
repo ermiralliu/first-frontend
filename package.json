@@ -1,0 +1,31 @@
+{
+  "name": "first-frontend",
+  "version": "1.1.0",
+  "devDependencies": {},
+  "scripts": {
+    "start": "(if not exist public/scripts tsc) && cd public && (start firefox index.html|| chrome index.html || start edge index.html)",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ermiralliu/first-frontend.git"
+  },
+  "author": "Ermir Alliu",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "typescript": "^4.9.5",
+    "http-server": "^14.1.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
